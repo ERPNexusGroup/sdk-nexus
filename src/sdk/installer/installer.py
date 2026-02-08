@@ -1,9 +1,9 @@
 from pathlib import Path
 from typing import Optional
-from .contracts import StorageBackend
-from .validator import ComponentValidator
-from .resolver import DependencyResolver
-from .exceptions import InstallationError, ValidationError, DependencyError
+from sdk.contracts import StorageBackend
+from sdk.validation.validator import ComponentValidator
+from sdk.installer.resolver import DependencyResolver
+from sdk.exceptions import InstallationError, ValidationError, DependencyError
 
 class TransactionalInstaller:
     """Instalador transaccional con rollback."""

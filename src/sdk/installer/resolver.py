@@ -1,8 +1,8 @@
 from typing import Dict, Optional
 from pathlib import Path
 from semantic_version import Version, SimpleSpec # type: ignore
-from .contracts import StorageBackend
-from .exceptions import DependencyError
+from sdk.contracts import StorageBackend
+from sdk.exceptions import DependencyError
 
 class DependencyResolver:
     """Resolutor de dependencias."""
