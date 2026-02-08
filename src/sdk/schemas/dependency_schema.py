@@ -1,16 +1,12 @@
-from pydantic import BaseModel, Field, field_validator
-from semantic_version import Version, SimpleSpec # type: ignore
+# src/sdk/schemas/dependency_schema.py
+from pydantic import BaseModel, Field
+from typing import Optional
+
 
 class DependencySchema(BaseModel):
-    """Schema para validar dependencias."""
-    name: str
-    version_spec: str
-
-    @field_validator("version_spec")
-    @classmethod
-    def validate_version_spec(cls, v: str) -> str:
-        try:
-            SimpleSpec(v)
-        except ValueError:
-            raise ValueError(f"Especificación de versión inválida: {v}")
-        return v
+    """
+    Representa una dependencia declarada por un componente.
+    """
+    name: str = Field(..., min_length=2)
+    version: Optional[str] = None
+    optional: bool = False
