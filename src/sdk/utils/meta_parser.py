@@ -1,8 +1,8 @@
 # src/sdk/utils/meta_parser.py
 import ast
 from pathlib import Path
-from typing import Any, Dict, List
-from ..exceptions import ValidationError
+from typing import Any, Dict
+# from bk.exceptions import ValidationError
 
 
 def parse_meta_file(meta_path: Path) -> Dict[str, Any]:
