@@ -1,6 +1,6 @@
 [project]
 name = "sdk"
-version = "0.1.0"
+version = "0.2.0"
 description = "SDK puro Python para crear componentes compatibles con ERP NEXUS"
 requires-python = ">=3.11"
 dependencies = [
