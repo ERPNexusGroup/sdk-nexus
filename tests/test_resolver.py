@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import MagicMock
 from pathlib import Path
-from src.sdk.resolver import DependencyResolver
-from src.sdk.contracts import StorageBackend
-from src.sdk.exceptions import DependencyError
+from bk.resolver import DependencyResolver
+from bk.contracts import StorageBackend
+from bk.exceptions import DependencyError
 
 def test_resolve_success():
     storage = MagicMock(spec=StorageBackend)

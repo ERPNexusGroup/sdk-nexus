@@ -1,8 +1,8 @@
 import pytest
 from unittest.mock import MagicMock
 from pathlib import Path
-from src.sdk.installer import TransactionalInstaller
-from src.sdk.contracts import StorageBackend
+from bk.installer import TransactionalInstaller
+from bk.contracts import StorageBackend
 
 class MockStorage(StorageBackend):
     def copy_files(self, source: Path, destination: Path) -> None:

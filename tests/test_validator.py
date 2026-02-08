@@ -1,8 +1,7 @@
 import pytest
-from pathlib import Path
 import json
-from src.sdk.validator import ComponentValidator
-from src.sdk.exceptions import ValidationError
+from bk.validator import ComponentValidator
+from bk.exceptions import ValidationError
 
 @pytest.fixture
 def valid_module_path(tmp_path):
