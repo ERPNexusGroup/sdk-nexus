@@ -2,7 +2,8 @@
 import ast
 from pathlib import Path
 from typing import Any, Dict
-# from bk.exceptions import ValidationError
+
+from sdk import ValidationError
 
 
 def parse_meta_file(meta_path: Path) -> Dict[str, Any]:
