@@ -18,7 +18,7 @@ __meta_template_version__ = "2.0"
 technical_name = "inventory"
 display_name = "demo inventory"
 component_type = "module"
-package_type = "ui"
+package_type = "extension"
 domain = "hospitality"
 
 # ════════════════════════════════════════════════════════════════════════════════
@@ -48,7 +48,7 @@ authors = []
 # 🔗 DEPENDENCIAS
 # ════════════════════════════════════════════════════════════════════════════════
 
-depends = ['base']
+depends = ['base', 'sales']
 external_dependencies = {}
 dev_dependencies = []
 

@@ -16,8 +16,8 @@ __meta_template_version__ = "2.0"
 
 technical_name = "base"
 display_name = "demo base"
-component_type = "app"
-package_type = "ui"
+component_type = "module"
+package_type = "extension"
 domain = "hospitality"
 
 # ════════════════════════════════════════════════════════════════════════════════
