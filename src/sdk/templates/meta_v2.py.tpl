@@ -65,6 +65,6 @@ lifecycle = {}
 # 🧬 AVANZADO
 # ════════════════════════════════════════════════════════════════════════════════
 
-migration_version = "0.1.0"
+migration_version = "1.0.0"
 load_priority = 50
 registry_flags = {}

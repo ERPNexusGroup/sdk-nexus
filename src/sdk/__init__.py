@@ -4,7 +4,7 @@ ERP NEXUS SDK
 =============
 SDK puro Python para definir y validar componentes compatibles con ERP NEXUS.
 """
-__version__ = "0.2.0"
+__version__ = "1.0.0"
 
 from .exceptions import (
     NexusSDKError,
