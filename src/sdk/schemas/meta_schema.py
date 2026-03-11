@@ -50,7 +50,7 @@ class BaseMetaSchema(BaseModel):
     )
     display_name: str = Field(..., min_length=3, max_length=100)
     component_type: Literal["module", "app"] = Field(...)
-    package_type: Literal["extension", "ui"] = Field(...)
+    package_type: Literal["core", "extension", "library", "integration", "ui"] = Field(...)
     domain: Optional[str] = None
 
     # ===== COMPATIBILIDAD (OBLIGATORIO) =====
@@ -100,6 +100,16 @@ class BaseMetaSchema(BaseModel):
             return v
         except ValueError:
             raise ValueError(f"Especificación de versión ERP inválida: '{v}'")
+
+    @field_validator("python")
+    @classmethod
+    def validate_python_version(cls, v: str) -> str:
+        # Validar especificación semver de Python (>=3.11, ~=3.12, etc.)
+        try:
+            SimpleSpec(v)
+            return v
+        except ValueError:
+            raise ValueError(f"Especificación de versión Python inválida: '{v}'")
 
     @model_validator(mode="after")
     def validate_technical_name_vs_display_name(self) -> "BaseMetaSchema":
