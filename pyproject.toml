@@ -20,7 +20,15 @@ sdk-nexus = "sdk.cli:cli"
 dev = [
     "pytest>=9.0.2",
     "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
 ]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
 
 [build-system]
 requires = ["hatchling"]
