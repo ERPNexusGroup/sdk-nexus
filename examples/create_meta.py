@@ -1,27 +1,24 @@
-from pathlib import Path
+"""Ejemplo: Crear metadata para un módulo usando Pydantic."""
+from sdk import BaseMetaSchema
 
-from sdk.meta_codegen import MetaGenerator
-
-BASE_DIR = Path(__file__).parent
-TEMPLATES_DIR = BASE_DIR.parent / "src" / "sdk" / "templates"
-
-OUTPUT_META = BASE_DIR / "demo" / "__meta__.py"
-
-generator = MetaGenerator(TEMPLATES_DIR)
-
-data = {
-    "technical_name": "demo",
-    "display_name": "demo",
-    "component_type": "module",
-    "package_type": "ui",
-    "domain": "hospitality",
-    "version": "0.1.0",
-    "description": "Componente ERP NEXUS para reservas hoteleras",
-}
-
-generator.generate_and_write(
-    OUTPUT_META,
-    data
+# Crear un esquema válido programáticamente
+meta = BaseMetaSchema(
+    technical_name="hotel_reservations",
+    display_name="Hotel Reservations",
+    component_type="module",
+    package_type="extension",
+    domain="hospitality",
+    version="0.1.0",
+    description="Sistema de reservas hoteleras para ERP Nexus",
+    keywords=["hotel", "reservations", "booking"],
+    depends=["core_users"],
 )
 
-print("✅ __meta__.py generado correctamente")
+print(f"✅ Módulo válido: {meta.technical_name}")
+print(f"   Versión: {meta.version}")
+print(f"   Dominio: {meta.domain}")
+print(f"   Dependencias: {meta.depends}")
+
+# Exportar como dict
+data = meta.model_dump()
+print(f"\n📋 Datos: {data}")

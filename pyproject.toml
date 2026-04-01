@@ -1,16 +1,25 @@
 [project]
-name = "sdk"
-version = "1.0.0"
-description = "SDK puro Python para crear componentes compatibles con ERP NEXUS"
+name = "sdk-nexus"
+version = "1.1.0"
+description = "Dev Toolkit para crear módulos compatibles con ERP Nexus"
+authors = [{name = "ERP Nexus Team", email = "team@erp-nexus.org"}]
 requires-python = ">=3.11"
+license = {text = "GPL-3.0-or-later"}
+readme = "README.md"
 dependencies = [
     "pydantic>=2.6.0",
     "semantic-version>=2.10.0",
+    "click>=8.1.7",
+    "rich>=13.7.0",
 ]
+
+[project.scripts]
+sdk-nexus = "sdk.cli:cli"
 
 [dependency-groups]
 dev = [
     "pytest>=9.0.2",
+    "pytest-cov>=5.0.0",
 ]
 
 [build-system]
@@ -19,3 +28,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sdk"]

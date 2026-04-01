@@ -1,44 +1,55 @@
-# src/sdk/__init__.py
 """
-ERP NEXUS SDK
-=============
-SDK puro Python para definir y validar componentes compatibles con ERP NEXUS.
+SDK Nexus — Dev Toolkit para ERP Nexus.
+
+Herramientas para desarrolladores que crean módulos
+compatibles con el ecosistema ERP Nexus.
+
+Uso:
+    from sdk import ComponentValidator, ModuleMetaSchema
+
+    # Validar un módulo
+    validator = ComponentValidator()
+    meta = validator.validate_component(Path("./mi_modulo"))
+
+    # Verificar contratos
+    from sdk.contracts import ModuleContract, EventProvider
 """
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 
 from .exceptions import (
     NexusSDKError,
     ValidationError,
     DependencyError,
-    InstallationError,
+    PackagingError,
+    ScaffoldError,
 )
-from .contracts import StorageBackend
-from .installer import TransactionalInstaller, InstallResult
-from .registry import ComponentRegistry
-from .dependency.install_plan import InstallPlan, build_install_plan
+from .contracts import (
+    ModuleContract,
+    EventProvider,
+    MigrationProvider,
+    APIProvider,
+)
 from .schemas.meta_schema import (
     ModuleMetaSchema,
     AppMetaSchema,
     BaseMetaSchema,
 )
 from .utils.meta_parser import parse_meta_file
-
-# Exportar clases principales para API pública
 from .validation.component_validator import ComponentValidator
 
-# Definir API pública explícita
 __all__ = [
+    # Version
+    "__version__",
+
     # Validación
     "ComponentValidator",
     "parse_meta_file",
 
-    # Contratos y registry
-    "StorageBackend",
-    "ComponentRegistry",
-    "TransactionalInstaller",
-    "InstallResult",
-    "InstallPlan",
-    "build_install_plan",
+    # Contratos
+    "ModuleContract",
+    "EventProvider",
+    "MigrationProvider",
+    "APIProvider",
 
     # Esquemas
     "ModuleMetaSchema",
@@ -49,5 +60,6 @@ __all__ = [
     "NexusSDKError",
     "ValidationError",
     "DependencyError",
-    "InstallationError",
+    "PackagingError",
+    "ScaffoldError",
 ]
