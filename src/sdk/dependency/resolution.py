@@ -1,3 +1,9 @@
+"""
+Resolución de dependencias entre módulos.
+
+Construye un plan de carga ordenado por dependencias,
+sin asumir nada sobre instalación.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -11,18 +17,36 @@ from ..exceptions import ValidationError
 
 
 @dataclass(frozen=True)
-class InstallPlan:
-    install_order: List[str]
+class DependencyPlan:
+    """
+    Plan de resolución de dependencias.
+
+    Contiene el orden en que los módulos deben cargarse/instalarse
+    para respetar las dependencias declaradas.
+    """
+    load_order: List[str]
     components: Dict[str, BaseMetaSchema]
     optional_skipped: List[str]
     total: int
     paths_by_name: Dict[str, Path]
 
 
-def build_install_plan(component_paths: List[Path]) -> InstallPlan:
+def resolve_dependencies(component_paths: List[Path]) -> DependencyPlan:
     """
-    Construye un plan de instalación ordenado por dependencias.
-    Requiere que todas las dependencias estén incluidas en component_paths.
+    Resuelve el orden de dependencias para un conjunto de módulos.
+
+    Todos los módulos referenciados en `depends` deben estar
+    incluidos en component_paths.
+
+    Args:
+        component_paths: Lista de rutas a directorios de módulos
+
+    Returns:
+        DependencyPlan con el orden de carga
+
+    Raises:
+        ValidationError: Si falta un módulo o su metadata
+        DependencyError: Si hay conflictos de versión o ciclos
     """
     resolver = DependencyResolver()
     paths_by_name: Dict[str, Path] = {}
@@ -38,8 +62,8 @@ def build_install_plan(component_paths: List[Path]) -> InstallPlan:
 
     result = resolver.resolve()
 
-    return InstallPlan(
-        install_order=result["install_order"],
+    return DependencyPlan(
+        load_order=result["install_order"],
         components=result["components"],
         optional_skipped=result["optional_skipped"],
         total=result["total"],

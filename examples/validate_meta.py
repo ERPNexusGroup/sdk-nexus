@@ -1,24 +1,15 @@
-# from pathlib import Path
-#
-# from sdk.utils.meta_parser import parse_meta_file
-# from sdk.utils.meta_validator import validate_meta
-#
-# META_PATH = Path(__file__).parent / "demo" / "__meta__.py"
-#
-# metadata = parse_meta_file(META_PATH)
-#
-# validated = validate_meta(metadata)
-#
-# print("✅ Metadata válida")
-# print(validated.model_dump())
-
+"""Ejemplo: Validar un módulo existente."""
 from pathlib import Path
-from sdk.validation import ComponentValidator
+from sdk import ComponentValidator
+from sdk.exceptions import ValidationError
 
 validator = ComponentValidator()
 
-meta = validator.validate_component(
-    Path("demo")
-)
-
-print(meta.technical_name)
+try:
+    meta = validator.validate_component(Path(__file__).parent / "modules" / "sales")
+    print(f"✅ Válido: {meta.technical_name} v{meta.version}")
+    print(f"   Tipo: {meta.component_type} ({meta.package_type})")
+    print(f"   Python: {meta.python}")
+    print(f"   ERP: {meta.erp_version}")
+except ValidationError as e:
+    print(f"❌ Inválido: {e}")
