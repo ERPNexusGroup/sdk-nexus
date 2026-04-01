@@ -1,88 +1,74 @@
-# ERP NEXUS SDK
+# SDK Nexus — Dev Toolkit para ERP Nexus
 
-SDK puro Python para definir, validar e instalar componentes (módulos, aplicaciones y librerías) compatibles con el ecosistema ERP NEXUS.
+Toolkit para desarrolladores que quieren crear módulos compatibles con el ecosistema ERP Nexus.
 
-## Características
+## ¿Qué es?
 
-- **Cero dependencias de framework**: Funciona standalone sin Django, FastAPI, etc.
-- **Validación estricta**: Schemas Pydantic para garantizar la integridad de los manifiestos.
-- **Instalación transaccional**: Garantiza rollback automático si falla la instalación.
-- **Resolución de dependencias**: Soporte para Semantic Versioning.
-- **Tipado estático**: Código 100% tipado y compatible con mypy.
-- **Gestión moderna**: Optimizado para el uso con [uv](https://docs.astral.sh/uv/).
+SDK Nexus te permite:
+- **Scaffold** un módulo nuevo desde cero
+- **Validar** tu módulo contra los contratos del ERP
+- **Empaquetar** tu módulo para distribución
+- **Testear** tu módulo localmente antes de instalar
+
+No instala módulos — eso lo hace el ERP (`manage.py install_module`).
 
 ## Instalación
 
-Este proyecto utiliza **uv** para la gestión de paquetes y entornos virtuales, reemplazando a pip/poetry en el flujo de trabajo.
+```bash
+uv add sdk-nexus
+# o
+pip install sdk-nexus
+```
 
-### Agregar a tu proyecto
+## Uso rápido
 
 ```bash
-uv add erp-nexus-sdk
+# Crear un módulo nuevo
+sdk-nexus create hotel_reservations --type=module
+
+# Validar un módulo existente
+sdk-nexus validate ./hotel_reservations
+
+# Empaquetar para distribución
+sdk-nexus package ./hotel_reservations
+
+# Ejecutar tests del módulo
+sdk-nexus test ./hotel_reservations
 ```
 
-### Instalación en entorno virtual existente
+## Flujo de desarrollo
 
-```bash
-uv pip install erp-nexus-sdk
+```
+1. sdk-nexus create mi_modulo     → Estructura base + __meta__.py
+2. (desarrollar: models, views, events...)
+3. sdk-nexus validate ./mi_modulo → Verifica contra contratos del ERP
+4. sdk-nexus test ./mi_modulo     → Tests del módulo
+5. sdk-nexus package ./mi_modulo  → Genera .npkg para distribuir
+6. Subir a git o compartir .npkg
 ```
 
-## Desarrollo
+## Estructura del proyecto
 
-Para contribuir al desarrollo del SDK, sigue estos pasos:
-
-1. **Sincronizar entorno**:
-   Instala las dependencias definidas en `pyproject.toml`.
-   ```bash
-   uv sync
-   ```
-
-2. **Ejecutar pruebas**:
-   ```bash
-   uv run pytest
-   ```
-
-3. **Verificar tipado**:
-   ```bash
-   uv run mypy src
-   ```
-
-## Uso Básico
-
-### Validación de un Módulo
-
-```python
-from pathlib import Path
-from erp_nexus_sdk.validator import ComponentValidator
-
-validator = ComponentValidator()
-try:
-    schema = validator.validate_manifest(Path("./mod_ventas/__meta__.py"))
-    print(f"Módulo válido: {schema.name} v{schema.version}")
-except Exception as e:
-    print(f"Error: {e}")
+```
+src/sdk/
+├── schemas/          # Pydantic schemas (__meta__.py validation)
+├── validation/       # Validators de estructura y dependencias
+├── dependency/       # Resolución de dependencias (semver)
+├── meta_codegen/     # Generación de __meta__.py templates
+├── utils/            # Utilidades (meta_parser, file_utils, etc.)
+├── contracts.py      # Interfaces/protocolos para el ERP
+├── constants.py      # Constantes del ecosistema
+├── validator.py      # Validador principal
+└── __init__.py       # API pública
 ```
 
-### Instalación Transaccional
+## Documentación
 
-```python
-from erp_nexus_sdk.installer import TransactionalInstaller
-from erp_nexus_sdk.contracts import StorageBackend
-
-# Implementa tu backend de almacenamiento (ej: sistema de archivos local)
-class MyStorage(StorageBackend):
-    ...
-
-installer = TransactionalInstaller(MyStorage())
-installer.install(source_path=Path("./mod_ventas"), target_path=Path("/opt/nexus/modules/mod_ventas"))
-```
-
-## Estructura del Proyecto
-
-- `src/erp_nexus_sdk`: Código fuente del SDK.
-- `docs/`: Documentación y especificaciones.
-- `tests/`: Pruebas unitarias.
+- [Especificación de módulos](docs/SPECIFICATION.md)
+- [Convenciones de nombres](docs/NAMING_CONVENTIONS.md)
+- [Palabras clave](docs/KEYWORDS.md)
+- [Ejemplos](docs/EXAMPLES.md)
 
 ## Licencia
 
-[MIT](LICENSE)
+GPL-3.0-or-later
