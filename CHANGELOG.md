@@ -5,12 +5,33 @@ All notable changes to SDK Nexus will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased] — dev branch
+## [1.1.0] — 2026-04-01
+
+### Added
+- CLI entry point: `sdk-nexus create|validate|package|test|info`
+- ModuleContract protocol (interface for ERP modules)
+- EventProvider protocol (event-driven module communication)
+- MigrationProvider protocol (modules with DB migrations)
+- APIProvider protocol (modules exposing API endpoints)
+- Package command: creates `.npkg` zip with SHA256 checksum and manifest
+- Scaffold creates full structure: `core/`, `events/`, `tests/`
+- Test runner for module tests (`sdk-nexus test`)
+- 15 passing tests for parser, schemas, validator, contracts
 
 ### Changed
-- Refocus SDK as dev toolkit (create, validate, package, test)
-- Removed installer/registry responsibilities (now in erp-nexus)
-- Updated README with new scope and usage
+- SDK refocused as dev toolkit (create, validate, package, test)
+- contracts.py: StorageBackend → ModuleContract + EventProvider + APIProvider
+- exceptions.py: removed InstallationError, added PackagingError + ScaffoldError
+- install_plan.py renamed to resolution.py (DependencyPlan → resolve_dependencies)
+- __init__.py: clean API surface with only dev toolkit exports
+- pyproject.toml: renamed to `sdk-nexus`, added click/rich deps
+- examples: cleaned up to match new scope
+
+### Removed
+- installer.py (TransactionalInstaller → moves to erp-nexus)
+- registry.py (ComponentRegistry → moves to erp-nexus)
+- StorageBackend protocol (installation not SDK responsibility)
+- InstallationError exception
 
 ## [1.0.0] — 2026-03-12
 
@@ -25,5 +46,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Structure and dependency validators
 - Examples for all major features
 
-[Unreleased]: https://github.com/ERPNexusGroup/sdk-nexus/compare/v1.0.0...dev
+[1.1.0]: https://github.com/ERPNexusGroup/sdk-nexus/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/ERPNexusGroup/sdk-nexus/releases/tag/v1.0.0
